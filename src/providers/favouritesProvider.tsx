@@ -4,16 +4,20 @@ import { Book } from '../types/booksTypes';
 type FavouritesContextType = {
     favourites: Book[];
     showOffCanvas: boolean;
-    addFavourite: (book: Book) => void;
-    removeFavourite: (book: Book) => void;
+    setShowOffCanvas: (showOffCanvas: boolean) => void;
+    getBadgeCount: () => number;
+    addToFavourites: (book: Book) => void;
+    removeFromFavourites: (book: Book) => void;
     clearLocaleStorage: () => void;
 }
 
 const FavouritesContext = React.createContext<FavouritesContextType>({
     favourites: [],
     showOffCanvas: false,
-    addFavourite: () => { },
-    removeFavourite: () => { },
+    setShowOffCanvas: () => { },
+    getBadgeCount: () => 0,
+    addToFavourites: () => { },
+    removeFromFavourites: () => { },
     clearLocaleStorage: () => { }
 });
 
@@ -25,17 +29,21 @@ export function FavouritesProvider({
     const [favourites, setFavourites] = React.useState<Book[]>([]);
     const [showOffCanvas, setShowOffCanvas] = React.useState<boolean>(false);
 
-    const addFavourite = (book: Book) => {
+    const addToFavourites = (book: Book) => {
         setFavourites([...favourites, book]);
     }
 
-    const removeFavourite = (book: Book) => {
+    const removeFromFavourites = (book: Book) => {
         setFavourites(favourites.filter(fav => fav.id !== book.id));
     }
 
     const clearLocaleStorage = () => {
         localStorage.removeItem('favourites');
         setFavourites([]);
+    }
+
+    const getBadgeCount = () => {
+        return favourites.length;
     }
 
     React.useEffect(() => {
@@ -49,7 +57,7 @@ export function FavouritesProvider({
     }, []);
 
     return (
-        <FavouritesContext.Provider value={{ favourites, showOffCanvas, addFavourite, removeFavourite, clearLocaleStorage }}>
+        <FavouritesContext.Provider value={{ favourites, showOffCanvas,setShowOffCanvas, getBadgeCount, addToFavourites: addToFavourites, removeFromFavourites: removeFromFavourites, clearLocaleStorage }}>
             {children}
         </FavouritesContext.Provider>
     );

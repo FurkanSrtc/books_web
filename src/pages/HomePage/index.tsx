@@ -1,12 +1,13 @@
 import React from 'react'
 import { Button, Col, Container, Image, Row } from 'react-bootstrap'
 import { useQuery } from 'react-query'
+import { useNavigate } from 'react-router-dom'
 import BooksAPI from '../../api/booksAPI'
 import BookCard from '../../components/bookCard'
 
 export default function HomePage() {
     const [page, setPage] = React.useState(1)
-
+    const navigate = useNavigate()
     const {
         isLoading,
         isError,
@@ -27,8 +28,8 @@ export default function HomePage() {
                 ) : (
                     <Row>
                         {data?.results.map(book => (
-                            <Col md={4} sm={12} xs={12}>
-                            <BookCard book={book} />
+                            <Col md={4} sm={12} xs={12} key={book.id} className="p-2" onClick={() => navigate(`book-details/${book.id}`)}>
+                                <BookCard book={book} />
                             </Col>
                         ))}
                     </Row>

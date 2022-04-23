@@ -16,11 +16,11 @@ export default function BookCard(props: cardTypes) {
             </Col>
             <Col md={8}>
                 <h5 style={{ textOverflow: "ellipsis", wordWrap: "break-word", }}>{book.title.length > 30 ? book.title.substring(0, 30) + "..." : book.title}</h5>
-                <p> {book.authors.map(author => (
-                    <span>{author.name}</span>
+                <p> {book.authors.map((author, index) => (
+                    <span key={index}>{author.name}</span>
                 ))}</p>
-                {book.languages.map(language => (
-                    <p>{language}</p>
+                {book.languages.map((language,index) => (
+                    <p key={index} >{language}</p>
                 ))}
 
             </Col>
