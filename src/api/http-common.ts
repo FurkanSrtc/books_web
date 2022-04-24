@@ -1,9 +1,8 @@
-import axios from "axios";
-
+import axios from 'axios';
 
 export default axios.create({
-  baseURL: `http://gutendex.com`, 
+  baseURL: 'http://gutendex.com',
   headers: {
-    "Content-Type": "application/json",
-  }
+    'Content-Type': 'application/json',
+  },
 });

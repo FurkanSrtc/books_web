@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { FavouritesProvider } from './providers/favouritesProvider';
-import { ReactQueryDevtools } from 'react-query/devtools'
+import App from './App';
 
-import "./assets/styles/index.css";
+import './assets/styles/index.css';
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById('root') as HTMLElement,
 );
 
 const queryClient = new QueryClient();
@@ -25,5 +25,5 @@ root.render(
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </FavouritesProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
