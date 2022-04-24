@@ -11,8 +11,12 @@ const BookDetails = async (bookId: string) => {
     return response.data;
 };
 
+const SearchDetails = async (search: string) => {
+    const response = await http.get<BooksObject>(`/books?search=${search}`);
+    return response.data;
+};
 const BooksAPI = {
-    ListBooks, BookDetails
+    ListBooks, BookDetails,SearchDetails
 };
 
 export default BooksAPI;

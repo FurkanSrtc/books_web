@@ -1,5 +1,5 @@
 import React from 'react'
-import { Offcanvas } from 'react-bootstrap';
+import { Image, Offcanvas, Row, Col } from 'react-bootstrap';
 import { useFavouritesProvider } from '../providers/favouritesProvider';
 import { Book } from '../types/booksTypes';
 
@@ -13,12 +13,20 @@ export default function FavouritesOffCanvas(props: offCanvasProps) {
     return (
         <Offcanvas scroll show={show} onHide={onHide} placement={'end'}>
             <Offcanvas.Header style={{ backgroundColor: '#2D2D2D', color: 'white' }} closeButton>
-                <Offcanvas.Title className='pt-3 pb-3'>Favoriler</Offcanvas.Title>
+                <Offcanvas.Title className='pt-3 pb-3'>Favorites</Offcanvas.Title>
             </Offcanvas.Header>
-            <Offcanvas.Body style={{ backgroundColor: '#E1E1E2', marginBottom: "20vh" }}>
+            <Offcanvas.Body style={{ backgroundColor: '#E1E1E2' }}>
                 {favourites.map((book: Book, index: number) => {
                     return (
-                        <p>{book.title}</p>
+                        <Row key={book.id}>
+                            <Col>
+                                <Image width={"100%"} style={{ maxHeight: "10vh", objectFit: "contain" }} fluid src={book.formats['image/jpeg']} alt={book.title} />
+                            </Col>
+                            <Col>
+                                <p>{book.title}</p>
+                            </Col>
+                        </Row>
+
                     )
                 })}
             </Offcanvas.Body>

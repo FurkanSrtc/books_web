@@ -27,7 +27,7 @@ export default function BookDetails() {
 
                     </Col>
                     <Col md={4} sm={12} xs={12}>
-                        <h5 style={{ textOverflow: "ellipsis", wordWrap: "break-word", }}>{bookDetails.data.title}</h5>
+                        <h5>{bookDetails.data.title}</h5>
                         <p> {bookDetails.data.authors.map((author, index) => (
                             <span key={index}>{author.name}</span>
                         ))}</p>

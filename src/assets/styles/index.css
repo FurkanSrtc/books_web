@@ -1,0 +1,67 @@
+body {
+  margin: 0;
+  background-color: whitesmoke;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.cbadge {
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  transition: all .3s;
+  display: inline-block;
+  min-width: 16px;
+  /* pixel unit */
+  padding: 0px 0px;
+  /* pixel unit */
+  border-radius: 50%;
+  font-size: 75px;
+  color: #fefefe;
+}
+
+.cbtn-sm {
+  color: white;
+  padding: 4px 16px;
+  text-align: center;
+  border-radius: .25rem;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 600;
+  position: relative;
+  text-decoration: none;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.btn-light {
+  color: #fff;
+  background-color: #F5F5F5;
+  border: 1px solid #b1afaf;
+}
+
+.text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+  line-height: 16px;     /* fallback */
+  max-height: 32px;      /* fallback */
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
+  
+}
