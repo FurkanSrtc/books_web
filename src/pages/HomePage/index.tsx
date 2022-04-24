@@ -1,53 +1,83 @@
 import React from 'react'
-import { Button, Col, Container, Image, Row } from 'react-bootstrap'
+import { Button, Col, Container, Image, Row, Spinner } from 'react-bootstrap'
 import { useQuery } from 'react-query'
 import BooksAPI from '../../api/booksAPI'
 import BookCard from '../../components/bookCard'
+import { useInView } from 'react-intersection-observer'
+import { useInfiniteQuery, QueryClient, QueryClientProvider } from 'react-query'
+import { Link } from 'react-router-dom'
 
 export default function HomePage() {
-    const [page, setPage] = React.useState(1)
+    const { ref, inView } = useInView()
     const {
-        isLoading,
-        isError,
-        error,
+        status,
         data,
+        error,
         isFetching,
-        isPreviousData,
-    } = useQuery(['projects', page], () => BooksAPI.ListBooks(page), { keepPreviousData: true })
+        isFetchingNextPage,
+        isFetchingPreviousPage,
+        fetchNextPage,
+        fetchPreviousPage,
+        hasNextPage,
+        hasPreviousPage,
+    } = useInfiniteQuery(
+        'projects', async ({ pageParam = 1 }) => BooksAPI.ListBooks(pageParam),
+        {
+            getPreviousPageParam: firstPage => firstPage.previous?.slice(32) ?? undefined,
+            getNextPageParam: lastPage => lastPage.next?.slice(32) ?? undefined,
+        }
+    )
+
+    React.useEffect(() => {
+        if (inView) {
+            fetchNextPage()
+        }
+    }, [inView])
 
     return (
-        <Container className="p-3">
-
-            <div>
-                {isLoading ? (
-                    <div>Loading...</div>) :
-                    isError ? (
-                        <div>Error</div>) : (
+        <Container>
+            <h1 className='my-2 mx-3'>All Books</h1>
+            {status === 'loading' ? (
+                <p>Loading...</p>) :
+                status === 'error' ? (
+                    <span>Error</span>) : (
+                    <>
                         <Row>
-                            {data?.results.map(book => (
-                                <BookCard key={book.id} book={book} />
+                            {data?.pages.map(page => (
+                                <React.Fragment key={page.next}>
+                                    {page.results.map(book => (
+                                        <Col md={4} sm={12} xs={12} key={book.id}>
+                                            <BookCard book={book} />
+                                        </Col>
+                                    ))}
+                                </React.Fragment>
                             ))}
                         </Row>
-                    )}
-                <span>Current Page: {page}</span>
-                <button
-                    onClick={() => setPage(old => Math.max(old - 1, 0))}
-                    disabled={page === 0}>
-                    Previous Page
-                </button>{' '}
-                <button
-                    onClick={() => {
-                        if (!isPreviousData && data?.next) {
-                            setPage(old => old + 1)
-                        }
-                    }}
-                    // Disable the Next Page button until we know a next page is available
-                    disabled={isPreviousData || !data?.next}>
-                    Next Page
-                </button>
-                {isFetching ? <span> Loading...</span> : null}{' '}
-            </div>
+                        <Row className='text-center'>
+                            <Col>
+                                <button className="btn btn-secondary mx-3 my-2"
+                                    ref={ref}
+                                    onClick={() => fetchNextPage()}
+                                    disabled={!hasNextPage || isFetchingNextPage}>
 
+                                    {isFetchingNextPage
+                                        ? <><span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
+                                            {" Loading more..."}
+                                        </>
+                                        : hasNextPage
+                                            ? 'Load Newer'
+                                            : 'Nothing more to load'}
+                                </button>
+                            </Col>
+                        </Row>
+                        <div>
+                            {isFetching && !isFetchingNextPage
+                                ? 'Background Updating...'
+                                : null}
+                        </div>
+                    </>
+                )}
+            <hr />
         </Container>
     )
 }

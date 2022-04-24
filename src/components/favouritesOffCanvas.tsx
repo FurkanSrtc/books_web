@@ -1,7 +1,8 @@
 import React from 'react'
-import { Image, Offcanvas, Row, Col } from 'react-bootstrap';
+import { Offcanvas } from 'react-bootstrap';
 import { useFavouritesProvider } from '../providers/favouritesProvider';
 import { Book } from '../types/booksTypes';
+import BookCard from './bookCard';
 
 type offCanvasProps = {
     show: boolean;
@@ -18,14 +19,7 @@ export default function FavouritesOffCanvas(props: offCanvasProps) {
             <Offcanvas.Body style={{ backgroundColor: '#E1E1E2' }}>
                 {favourites.map((book: Book, index: number) => {
                     return (
-                        <Row key={book.id}>
-                            <Col>
-                                <Image width={"100%"} style={{ maxHeight: "10vh", objectFit: "contain" }} fluid src={book.formats['image/jpeg']} alt={book.title} />
-                            </Col>
-                            <Col>
-                                <p>{book.title}</p>
-                            </Col>
-                        </Row>
+                       <BookCard key={index} book={book} />
 
                     )
                 })}

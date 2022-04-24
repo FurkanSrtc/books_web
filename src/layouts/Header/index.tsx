@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar, Container, Col, Offcanvas, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap'
+import { Navbar, Container, Nav, Form, FormControl, Button } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import FavouritesOffCanvas from '../../components/favouritesOffCanvas';
 import { useFavouritesProvider } from '../../providers/favouritesProvider'
@@ -10,6 +10,13 @@ export default function Header() {
     const handleClose = () => setShowOffCanvas(false);
     const [search, setSearch] = React.useState('');
     const navigate = useNavigate();
+
+
+    const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        navigate(`/books/search/${encodeURI(search)}`);
+    }
+
     return (
         <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -33,16 +40,16 @@ export default function Header() {
 
                         </Nav>
                         <Nav>
-                        <Form className="d-flex m-1">
-                            <FormControl
-                                type="search"
-                                placeholder="Search"
-                                className="me-2"
-                                aria-label="Search"
-                                onChange={(e) => setSearch(e.target.value)}
-                            />
-                            <Button variant="outline-success" onClick={()=>navigate(`/books/search/${encodeURI(search)}`)}>Search</Button>
-                        </Form>
+                            <Form onSubmit={handleSearch} className="d-flex m-1">
+                                <FormControl
+                                    type="search"
+                                    placeholder="Search"
+                                    className="me-2"
+                                    aria-label="Search"
+                                    onChange={(e) => setSearch(e.target.value)}
+                                />
+                                <Button variant="outline-success" type="submit" >Search</Button>
+                            </Form>
                         </Nav>
 
 

@@ -58,13 +58,9 @@ export function FavouritesProvider({
 
     React.useEffect(() => {
         const localFavourites = localStorage.getItem('favourites');
-        console.log("localFavourites22", localFavourites    )
-
         if (localFavourites) {
             const parsedFavorites: Book[] = JSON.parse(localFavourites);
-            console.log("parsed favourites", parsedFavorites    )
             setFavourites(parsedFavorites);
-            
         }
         else {
             localStorage.setItem('favourites', JSON.stringify(favourites));
@@ -74,9 +70,9 @@ export function FavouritesProvider({
     React.useEffect(() => {
         if (favourites.length > 0) {
             localStorage.setItem('favourites', JSON.stringify(favourites));
-        }
-        console.log('favourites changed', favourites);
+            console.log('favourites changed', favourites);
 
+        }
     }, [favourites]);
 
     return (

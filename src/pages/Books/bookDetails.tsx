@@ -7,11 +7,11 @@ import BooksAPI from '../../api/booksAPI';
 import { useFavouritesProvider } from '../../providers/favouritesProvider';
 
 export default function BookDetails() {
-    const { addToFavourites, removeFromFavourites } = useFavouritesProvider();
+    const { addToFavourites, checkToFavorite } = useFavouritesProvider();
     const { bookId } = useParams();
     const bookDetails = useQuery(['bookDetails', bookId], () => BooksAPI.BookDetails(bookId ?? ""));
-     
-    const addFavourites = (book : Book) => {
+
+    const addFavourites = (book: Book) => {
         addToFavourites(book);
     }
     return (
@@ -22,20 +22,45 @@ export default function BookDetails() {
                 {bookDetails.isLoading && <p>Loading...</p>}
                 {bookDetails.isError && <p>Error</p>}
                 {bookDetails.isSuccess && <>
-                    <Col md={3}>
+                    <Col md={4}>
                         <Image width={"100%"} style={{ maxHeight: "50vh", objectFit: "contain" }} fluid src={bookDetails.data.formats['image/jpeg']} alt={bookDetails.data.title} />
 
                     </Col>
-                    <Col md={4} sm={12} xs={12}>
-                        <h5>{bookDetails.data.title}</h5>
-                        <p> {bookDetails.data.authors.map((author, index) => (
-                            <span key={index}>{author.name}</span>
-                        ))}</p>
-                        {bookDetails.data.languages.map((language,index) => (
-                            <p key={index}>{language}</p>
+                    <Col md={6} sm={12} xs={12}>
+                        <h4>{bookDetails.data.title}</h4>
+                        <h5>Authors</h5>
+                        {bookDetails.data.authors.map((author, index) => (
+                            <>
+                                <p className='m-0' key={index}>-{author.name}</p>
+                            </>
                         ))}
+                        <br />
+                        <h5>Languages</h5>
+                        {bookDetails.data.languages.map((language, index) => (
+                            <>
+                                <p className='m-0' key={index}>-{language}</p>
+                            </>
+                        ))}
+                        <br />
+                        <h5>Subjects</h5>
+                        {bookDetails.data.subjects.map((subject, index) => (
+                            <>
+                                <p className='m-0' key={index}>-{subject}</p>
+                            </>
+                        ))}
+                        <br />
+                        {bookDetails.data.bookshelves.length > 0 && <>
+                            <h5>Bookshelves</h5>
+                            {bookDetails.data.bookshelves.map((bookshelve, index) => (
+                                <>
+                                    <p className='m-0' key={index}>-{bookshelve}</p>
+                                </>
+                            ))}</>}
 
-                        <Button variant="primary" onClick={() => { addFavourites(bookDetails.data) }}>Add to Favourites</Button>
+                        {checkToFavorite(bookDetails.data) ?
+                            <Button variant="outline-danger" onClick={() => addFavourites(bookDetails.data)}>Remove from Favourites</Button> :
+                            <Button variant="outline-success" onClick={() => addFavourites(bookDetails.data)}>Add to Favourites</Button>
+                        }
                     </Col>
                 </>}
             </Row>

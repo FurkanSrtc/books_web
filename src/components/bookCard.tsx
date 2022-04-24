@@ -1,7 +1,7 @@
 import React from 'react'
-import { Button, Col, Container, Image, Row } from 'react-bootstrap'
+import { Col, Image, Row } from 'react-bootstrap'
 import { Book } from '../types/booksTypes';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { BsDownload, BsBookmarkPlus, BsBookmarkFill } from "react-icons/bs";
 import { useFavouritesProvider } from '../providers/favouritesProvider';
 interface cardTypes {
@@ -14,7 +14,6 @@ export default function BookCard(props: cardTypes) {
     const linkTo: string = `/book-details/${book.id}`
 
     const addFavourites = () => {
-        console.log("addToFavourites");
         addToFavourites(book);
     }
 
@@ -34,7 +33,7 @@ export default function BookCard(props: cardTypes) {
     } as const
 
     return (
-        <Col md={4} sm={12} xs={12} key={book.id}>
+   
             <Row className="m-2 py-2" style={{ backgroundColor: "white", minHeight: "10rem" }}>
                 <Col md={4} sm={6} xs={12}>
                     <Link to={linkTo}>
@@ -63,7 +62,6 @@ export default function BookCard(props: cardTypes) {
 
                 </Col>
             </Row>
-        </Col>
     )
 }
 
