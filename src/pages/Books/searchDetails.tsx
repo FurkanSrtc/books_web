@@ -17,7 +17,12 @@ export default function SearchDetails() {
           {`Searched: ${search}`}
         </p>
         {searchDetails.isLoading && <p>Loading...</p>}
-        {searchDetails.isError && <p>Error</p>}
+        {searchDetails.isError && (
+        <p>
+          Error
+          {searchDetails.error instanceof Error ? `: ${searchDetails.error.message}` : `: ${searchDetails.error}`}
+        </p>
+        )}
         {searchDetails.isSuccess && (
           <Row>
             {searchDetails.data.results.map((book) => (

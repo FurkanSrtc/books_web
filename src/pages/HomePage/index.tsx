@@ -10,6 +10,7 @@ export default function HomePage() {
   const {
     status,
     data,
+    error,
     isFetching,
     isFetchingNextPage,
     fetchNextPage,
@@ -36,7 +37,11 @@ export default function HomePage() {
         <p>Loading...</p>)}
 
       {status === 'error' && (
-        <span>Error</span>)}
+        <span>
+          Error
+          {error instanceof Error ? `: ${error.message}` : `: ${error}`}
+        </span>
+      )}
 
       {status === 'success' && (
         <>

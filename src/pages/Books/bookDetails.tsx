@@ -7,6 +7,7 @@ import { useQuery } from 'react-query';
 import { Book } from '../../types/booksTypes';
 import BooksAPI from '../../api/booksAPI';
 import { useFavouritesProvider } from '../../providers/favouritesProvider';
+import ApiError from '../../components/apiError';
 
 export default function BookDetails() {
   const { addToFavourites, checkToFavorite } = useFavouritesProvider();
@@ -24,7 +25,9 @@ export default function BookDetails() {
           {`Book ID: ${bookId}`}
         </p>
         {bookDetails.isLoading && <p>Loading...</p>}
-        {bookDetails.isError && <p>Error</p>}
+        {bookDetails.isError && (
+        <ApiError message={bookDetails.error instanceof Error ? `${bookDetails.error.message}` : `${bookDetails.error}`} />
+        )}
         {bookDetails.isSuccess && (
         <>
           <Col md={4}>
