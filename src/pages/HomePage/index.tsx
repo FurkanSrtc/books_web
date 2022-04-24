@@ -4,6 +4,7 @@ import { useInfiniteQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
 import BooksAPI from '../../api/booksAPI';
 import BookCard from '../../components/bookCard';
+import ApiError from '../../components/apiError';
 
 export default function HomePage() {
   const { ref, inView } = useInView();
@@ -37,10 +38,7 @@ export default function HomePage() {
         <p>Loading...</p>)}
 
       {status === 'error' && (
-        <span>
-          Error
-          {error instanceof Error ? `: ${error.message}` : `: ${error}`}
-        </span>
+      <ApiError message={error instanceof Error ? `${error.message}` : `${error}`} />
       )}
 
       {status === 'success' && (

@@ -4,6 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { useQuery } from 'react-query';
 import BooksAPI from '../../api/booksAPI';
 import BookCard from '../../components/bookCard';
+import ApiError from '../../components/apiError';
 
 export default function SearchDetails() {
   const { search } = useParams();
@@ -18,10 +19,7 @@ export default function SearchDetails() {
         </p>
         {searchDetails.isLoading && <p>Loading...</p>}
         {searchDetails.isError && (
-        <p>
-          Error
-          {searchDetails.error instanceof Error ? `: ${searchDetails.error.message}` : `: ${searchDetails.error}`}
-        </p>
+        <ApiError message={searchDetails.error instanceof Error ? `${searchDetails.error.message}` : `${searchDetails.error}`} />
         )}
         {searchDetails.isSuccess && (
           <Row>
